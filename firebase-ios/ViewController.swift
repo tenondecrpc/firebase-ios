@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // Analytics events
+        Analytics.logEvent("app_init", parameters: ["screen":"auth_screen"])
     }
 
 
