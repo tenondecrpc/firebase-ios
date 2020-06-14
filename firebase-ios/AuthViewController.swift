@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAnalytics
 import FirebaseAuth
+import GoogleSignIn
 
 class AuthViewController: UIViewController {
 
@@ -16,12 +17,31 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var authStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Analytics events
         Analytics.logEvent("app_init", parameters: ["screen":"auth_view"])
+        
+        // Recovery data
+        let defaults = UserDefaults.standard
+        if let email = defaults.value(forKey: "email") as? String,
+            let provider = defaults.value(forKey: "provider") as? String {
+            authStackView.isHidden = true
+            self.showHome(email: email, provider: ProviderType.init(rawValue: provider)!, animated: false)
+        }
+        
+        // Google Auth
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance()?.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        authStackView.isHidden = false
     }
 
 
@@ -30,7 +50,7 @@ class AuthViewController: UIViewController {
             Auth.auth().createUser(withEmail: email, password: password) {
                 (result, error) in
                 if let result = result, error == nil {
-                    self.showHome(email: result.user.email!, provider: .basic)
+                    self.showHome(email: result.user.email!, provider: .basic, animated: true)
                 } else {
                     self.showAlert()
                 }
@@ -43,12 +63,18 @@ class AuthViewController: UIViewController {
             Auth.auth().signIn(withEmail: email, password: password) {
                 (result, error) in
                 if let result = result, error == nil {
-                    self.showHome(email: result.user.email!, provider: .basic)
+                    self.showHome(email: result.user.email!, provider: .basic, animated: true)
                 } else {
                     self.showAlert()
                 }
             }
         }
+    }
+    
+    
+    @IBAction func googleButtonAction(_ sender: Any) {
+        GIDSignIn.sharedInstance()?.signOut()
+        GIDSignIn.sharedInstance()?.signIn()
     }
     
     private func showAlert() {
@@ -58,8 +84,26 @@ class AuthViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func showHome(email: String, provider: ProviderType) {
-        self.navigationController?.pushViewController(HomeViewController(email: email, provider: provider), animated: true)
+    private func showHome(email: String, provider: ProviderType, animated: Bool) {
+        self.navigationController?.pushViewController(HomeViewController(email: email, provider: provider), animated: animated)
+    }
+}
+
+extension AuthViewController: GIDSignInDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if error == nil && user.authentication != nil {
+            let credential = GoogleAuthProvider.credential(withIDToken: user.authentication.idToken,
+                                                           accessToken: user.authentication.accessToken)
+            
+            Auth.auth().signIn(with: credential) {
+                (result, error) in
+                if let result = result, error == nil {
+                    self.showHome(email: result.user.email!, provider: .google, animated: true)
+                } else {
+                    self.showAlert()
+                }
+            }
+        }
     }
 }
 

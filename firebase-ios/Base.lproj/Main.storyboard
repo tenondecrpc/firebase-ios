@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="B92-wp-yZ9">
-                                <rect key="frame" x="16" y="104" width="382" height="136"/>
+                                <rect key="frame" x="16" y="104" width="382" height="184"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U6z-4z-M46">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="40"/>
@@ -56,7 +56,20 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzD-PB-k26">
+                                        <rect key="frame" x="0.0" y="144" width="382" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Google" image="ic_google">
+                                            <color key="titleColor" red="0.17254901959999999" green="0.21960784310000001" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="googleButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LjQ-a7-aA5"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="mzD-PB-k26" firstAttribute="leading" secondItem="B92-wp-yZ9" secondAttribute="leading" constant="8" id="Weg-yn-RI4"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -69,6 +82,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Authentication" id="zw0-ew-Tqn"/>
                     <connections>
+                        <outlet property="authStackView" destination="B92-wp-yZ9" id="qcs-Mf-FA2"/>
                         <outlet property="emailTextField" destination="U6z-4z-M46" id="m38-iB-uil"/>
                         <outlet property="loginButton" destination="OCt-R1-Kuy" id="Lb4-dP-C0D"/>
                         <outlet property="passwordTextField" destination="ibe-qT-YzV" id="ZCP-Lb-Uhw"/>
@@ -98,4 +112,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="116.51785714285714"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_google" width="32" height="32"/>
+    </resources>
 </document>

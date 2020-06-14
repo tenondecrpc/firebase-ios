@@ -8,9 +8,11 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleSignIn
 
 enum ProviderType: String {
     case basic
+    case google
 }
 
 class HomeViewController: UIViewController {
@@ -35,21 +37,42 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Home"
+        
+        navigationItem.setHidesBackButton(true, animated: false)
+        
         emailLabel.text = email
         providerLabel.text = provider.rawValue
         
+        // Save data
+        let defaults = UserDefaults.standard
+        defaults.set(email, forKey: "email")
+        defaults.set(provider.rawValue, forKey: "provider")
+        defaults.synchronize()
     }
     
 
     @IBAction func logoutButtonAction(_ sender: Any) {
+        // Remove data
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "email")
+        defaults.removeObject(forKey: "provider")
+        defaults.synchronize()
+        
         switch provider {
         case .basic:
-            do {
-                try Auth.auth().signOut()
-                self.navigationController?.popViewController(animated: true)
-            } catch  {
-                
-            }
+            self.firebaseLogOut()
+        case .google:
+            GIDSignIn.sharedInstance()?.signOut()
+            self.firebaseLogOut()
+        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func firebaseLogOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch  {
+            
         }
     }
 }

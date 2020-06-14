@@ -8,5 +8,6 @@ target 'firebase-ios' do
   # Pods for firebase-ios
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
+  pod 'GoogleSignIn'
 
 end
