@@ -9,10 +9,12 @@
 import UIKit
 import FirebaseAuth
 import GoogleSignIn
+import FBSDKLoginKit
 
 enum ProviderType: String {
     case basic
     case google
+    case facebook
 }
 
 class HomeViewController: UIViewController {
@@ -63,6 +65,9 @@ class HomeViewController: UIViewController {
             self.firebaseLogOut()
         case .google:
             GIDSignIn.sharedInstance()?.signOut()
+            self.firebaseLogOut()
+        case .facebook:
+            LoginManager().logOut()
             self.firebaseLogOut()
         }
         self.navigationController?.popViewController(animated: true)

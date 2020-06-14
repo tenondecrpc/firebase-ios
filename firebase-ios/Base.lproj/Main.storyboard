@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="B92-wp-yZ9">
-                                <rect key="frame" x="16" y="104" width="382" height="184"/>
+                                <rect key="frame" x="16" y="104" width="382" height="232"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U6z-4z-M46">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="40"/>
@@ -56,7 +56,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzD-PB-k26">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzD-PB-k26">
                                         <rect key="frame" x="0.0" y="144" width="382" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="Google" image="ic_google">
@@ -64,6 +64,16 @@
                                         </state>
                                         <connections>
                                             <action selector="googleButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LjQ-a7-aA5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZe-EM-uYd">
+                                        <rect key="frame" x="0.0" y="192" width="382" height="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Facebook" image="ic_facebook">
+                                            <color key="titleColor" red="0.17254901959999999" green="0.21960784310000001" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="facebookButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oj9-t9-ayM"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -84,6 +94,7 @@
                     <connections>
                         <outlet property="authStackView" destination="B92-wp-yZ9" id="qcs-Mf-FA2"/>
                         <outlet property="emailTextField" destination="U6z-4z-M46" id="m38-iB-uil"/>
+                        <outlet property="facebookButton" destination="NZe-EM-uYd" id="jIX-sR-czf"/>
                         <outlet property="loginButton" destination="OCt-R1-Kuy" id="Lb4-dP-C0D"/>
                         <outlet property="passwordTextField" destination="ibe-qT-YzV" id="ZCP-Lb-Uhw"/>
                         <outlet property="registerButton" destination="B39-BO-VzB" id="CD3-xm-WYd"/>
@@ -113,6 +124,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_facebook" width="32" height="32"/>
         <image name="ic_google" width="32" height="32"/>
     </resources>
 </document>

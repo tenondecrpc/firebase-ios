@@ -10,14 +10,17 @@ import UIKit
 import FirebaseAnalytics
 import FirebaseAuth
 import GoogleSignIn
+import FBSDKLoginKit
 
 class AuthViewController: UIViewController {
 
+    @IBOutlet weak var authStackView: UIStackView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var authStackView: UIStackView!
+    @IBOutlet weak var facebookButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +78,31 @@ class AuthViewController: UIViewController {
     @IBAction func googleButtonAction(_ sender: Any) {
         GIDSignIn.sharedInstance()?.signOut()
         GIDSignIn.sharedInstance()?.signIn()
+    }
+    
+    
+    @IBAction func facebookButtonAction(_ sender: Any) {
+        let loginManager = LoginManager()
+        loginManager.logOut()
+        loginManager.logIn(permissions: [.email], viewController: self) { (result) in
+            
+            switch result {
+            case .success(granted: let granted, declined: let declined, token: let token):
+                let credential = FacebookAuthProvider.credential(withAccessToken: token.tokenString)
+                Auth.auth().signIn(with: credential) {
+                    (result, error) in
+                    if let result = result, error == nil {
+                        self.showHome(email: result.user.email!, provider: .facebook, animated: true)
+                    } else {
+                        self.showAlert()
+                    }
+                }
+            case .cancelled:
+                break
+            case .failed(_):
+                self.showAlert()
+            }
+        }
     }
     
     private func showAlert() {
