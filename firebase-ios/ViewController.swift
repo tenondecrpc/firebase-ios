@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  AuthViewController.swift
 //  firebase-ios
 //
 //  Created by Cristian Paniagua on 06/13/20.
@@ -9,13 +9,13 @@
 import UIKit
 import FirebaseAnalytics
 
-class ViewController: UIViewController {
+class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Analytics events
-        Analytics.logEvent("app_init", parameters: ["screen":"auth_screen"])
+        Analytics.logEvent("app_init", parameters: ["screen":"auth_view"])
     }
 
 
